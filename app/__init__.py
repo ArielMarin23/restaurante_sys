@@ -8,4 +8,3 @@ def inject_activate_page():
     activate_page = request.endpoint
     #devolver un diccionario con la variable active_page
     return dict(activate_page=activate_page)
-
