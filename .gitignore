@@ -4,3 +4,4 @@ paquetes.txt
 #Directorios
 /.env
 /app/__pycache__/
+/app/rutas/__pycache__/

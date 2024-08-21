@@ -11,6 +11,9 @@ def inject_activate_page():
     return dict(activate_page=activate_page)
 
 from app.rutas.inicio.routes import mod
+from app.rutas.referencial.ciudad.routes import ciumod
 
 #app.register_blueprint(mod)
 app.register_blueprint(rutas.inicio.routes.mod)
+
+app.register_blueprint(rutas.referencial.ciudad.routes.ciumod)
