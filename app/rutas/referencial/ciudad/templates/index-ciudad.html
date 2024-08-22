@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block contenido_principal %}
+<!-- contenido de cabezera (cabezera de pagina) -->
+ <section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Referencial Ciudad</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{url_for('inicio.index')}}">Inicio</a></li>
+                    <li class="breadcrumb-item active">Referencial Ciudad</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+ </section>
+ <!-- Inicio del cuerpo de tarjeta -->
+<section class="content" style="max-width: 600px; margin: auto;">
+    <div class="card">
+        <!-- cabecera del cuerpo -->
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-6"><h6 class="card-title">Ciudad</h6></div>
+                <div class="col-sm-6"><a href="#" class="btn btn-primary">Agregar Ciudad</a></div>
+            </div>
+        </div>
+        <!-- Inicio del cuerpo
+        Contenido Principal-->
+        <div class="card-body">
+            <table class="table" id="tbl">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th> <h1>id</h1>
+                            <td><h1>descripcion</h1></td>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</section>
+{% endblock %}

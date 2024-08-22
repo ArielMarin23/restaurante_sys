@@ -10,10 +10,10 @@ def inject_activate_page():
     #devolver un diccionario con la variable active_page
     return dict(activate_page=activate_page)
 
-from app.rutas.inicio.routes import mod
-from app.rutas.referencial.ciudad.routes import ciumod
+from app.rutas.inicio.inicio_routes import mod
+from app.rutas.referencial.ciudad.ciudad_routes import ciumod
 
 #app.register_blueprint(mod)
-app.register_blueprint(rutas.inicio.routes.mod)
+app.register_blueprint(rutas.inicio.inicio_routes.mod)
 
-app.register_blueprint(rutas.referencial.ciudad.routes.ciumod)
+app.register_blueprint(rutas.referencial.ciudad.ciudad_routes.ciumod)
