@@ -3,5 +3,4 @@ comandos_git.txt
 paquetes.txt
 #Directorios
 /.env
-/app/__pycache__/
-/app/rutas/__pycache__/
+__pycache__/
