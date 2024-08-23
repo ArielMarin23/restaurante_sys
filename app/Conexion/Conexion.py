@@ -9,14 +9,6 @@ class Conexion:
         self.__con=psycopg2.connect("dbname=db_restaurante user=arielMarin host=localhost password=admin")
         #Solo es un ejemplo se debe remplazar por la base dato real
 
-    def getConexion(self):
-         """Método getConexion, retorna la conexion.
-
-        Si la conexion se realizó en el método constructor de la Clase Conexion,
-        se retorna dicha instancia.
-
-        Retorna:
-        con -- conexion
-
-        """
+    def getConexion(self):#Retorna la conexion
+        
         return self.__con
