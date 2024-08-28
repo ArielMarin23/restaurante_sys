@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block mi_css %}
+<!-- Select2 -->
+<link rel="stylesheet" href="{{url_for('static', filename='plugins/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+<!-- Tempusdominus Bootstrap 4 -->
+
+<link rel="stylesheet" href="{{url_for('static', filename='plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+
+{% endblock %}
+
+{% block contenido_principal %}
+<!-- contenido de cabezera (cabezera de pagina) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Referencial Cliente</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{url_for('inicio.index')}}">Inicio</a></li>
+                    <li class="breadcrumb-item active">Referencial Cliente</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Inicio del cuerpo de tarjeta style="max-width: 600px; margin: auto;"-->
+ <section class="container">
+     <!-- Cabecera del formulario -->
+     <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Registrar Cliente</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form>
+          <div class="card-body">
+                <div class="form-group">
+                <label for="#">Nombre</label>
+                <input type="text" class="form-control" id="nombreClientes" placeholder="Ingrese Nombre">
+                </div>
+                <div class="form-group">
+                    <label for="#">Apellido</label>
+                    <input type="text" class="form-control" id="apellidoClientes" placeholder="Ingrese Apellido">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Documento</label>
+                    <select class="form-control">
+                        <option>CI NRO</option>
+                        <option>RUC</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                <label for="#">Numero de Documento</label>
+                <input type="text" class="form-control" id="docNro" placeholder="Ingresar Numero de Documento">
+                </div>
+                <div class="form-group">
+                    <label for="#">Dirección</label>
+                    <input type="text" class="form-control" id="direccionClientes" placeholder="Ingrese Dirección">
+              </div>
+              <div class="form-group">
+                <label>Ciudad</label>
+                <select class="form-control select2bs4" style="width: 100%;">
+                  <option selected="selected">Asuncion</option>
+                  <option>Ñemby</option>
+                  <option>San Antonio</option>
+                  <option>San Lorenzo</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Nacionalidad</label>
+                <select class="form-control select2bs4" style="width: 100%;">
+                  <option selected="selected">Paraguaya</option>
+                  <option>Argentina</option>
+                  <option>Peruana</option>
+                  <option>Boliviana</option>
+                </select>
+              </div>
+              <div class="form-group">
+                    <label>Numero de Telefono:</label>
+                    <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    </div>
+                    <input type="text" class="form-control" data-inputmask='"mask": "(0999)999-999"' data-mask>
+                    </div>
+              </div>
+              <div class="form-group">
+                    <label>Fecha De Nacimiento</label>
+                    <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                    </div>
+                    <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                    </div>
+              </div>
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </form>
+      </div>
+</section>
+{% endblock %}
+
+{% block mi_javascript %}
+<!-- Select2 -->
+<script src="{{ url_for('static', filename='plugins/select2/js/select2.full.min.js') }}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{ url_for('static', filename='plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<!-- InputMask -->
+<script src="{{ url_for('static', filename='plugins/moment/moment.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/inputmask/jquery.inputmask.min.js') }}"></script>
+<script>
+    $(function () {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+  
+      //Initialize Select2 Elements
+      $('.select2bs4').select2({
+        theme: 'bootstrap4'
+      })
+      //Datemask dd/mm/yyyy
+      $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+        //Datemask2 mm/dd/yyyy
+      $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+      //Money Euro
+      $('[data-mask]').inputmask()
+  
+    })
+
+</script>
+
+{% endblock %}

@@ -1,6 +1,7 @@
 from flask import Flask, render_template,request
 from app import rutas
 
+
 app = Flask(__name__)
 #definir una funcion de procesador de contexto para la aplicacion
 @app.context_processor
@@ -12,8 +13,10 @@ def inject_activate_page():
 
 from app.rutas.inicio.inicio_routes import mod
 from app.rutas.referencial.ciudad.ciudad_routes import ciumod
+from app.rutas.referencial.cliente.cliente_routes import clienmod
 
 #app.register_blueprint(mod)
 app.register_blueprint(rutas.inicio.inicio_routes.mod)
 
 app.register_blueprint(rutas.referencial.ciudad.ciudad_routes.ciumod)
+app.register_blueprint(rutas.referencial.cliente.cliente_routes.clienmod)
