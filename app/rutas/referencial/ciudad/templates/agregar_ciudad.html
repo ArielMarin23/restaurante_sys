@@ -1,11 +1,11 @@
 <!-- Inicio del cuerpo de tarjeta -->
 <section class="content" style="max-width: 600px; margin: auto;">
-    <form action="#">
+    <form action="{{ url_for ('ciudad.update_ciudad') }}" method="post">
         <div class="card">
         <div class="card-header">Agregar ciudad</div>
         <div class="card-body">
-            <input type="hidden" name="idtxtciudad" value="#">
-            <input type="text" name="txtciudad" class="form-control" value="#" required>
+            <input type="hidden" name="idtxtciudad" value="{{ciudad['id']}}">
+            <input type="text" name="txtciudad" class="form-control" value="{{ ciudad['descripcion'] }}" required>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Aceptar</button>
