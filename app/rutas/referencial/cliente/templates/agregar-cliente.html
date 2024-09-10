@@ -35,15 +35,15 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form>
+        <form id="formCLiente">
           <div class="card-body">
                 <div class="form-group">
                 <label for="#">Nombre</label>
-                <input type="text" class="form-control" id="nombreClientes" placeholder="Ingrese Nombre">
+                <input type="text" class="form-control" id="nombreCliente" placeholder="Ingrese Nombre">
                 </div>
                 <div class="form-group">
                     <label for="#">Apellido</label>
-                    <input type="text" class="form-control" id="apellidoClientes" placeholder="Ingrese Apellido">
+                    <input type="text" class="form-control" id="apellidoCliente" placeholder="Ingrese Apellido">
                 </div>
                 <div class="form-group">
                     <label>Tipo de Documento</label>
@@ -84,7 +84,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-phone"></i></span>
                     </div>
-                    <input type="text" class="form-control" data-inputmask='"mask": "(0999)999-999"' data-mask>
+                    <input type="text" id="telfCliente" class="form-control" data-inputmask='"mask": "(0999)999-999"' data-mask>
                     </div>
               </div>
               <div class="form-group">
@@ -99,7 +99,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" class="btn btn-primary"id="btnEnviar">Enviar</button>
           </div>
         </form>
       </div>
@@ -107,6 +107,7 @@
 {% endblock %}
 
 {% block mi_javascript %}
+<script src="{{ url_for('static', filename='js/operacionales/referenciales/persona.js')}}"></script>
 <!-- Select2 -->
 <script src="{{ url_for('static', filename='plugins/select2/js/select2.full.min.js') }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->

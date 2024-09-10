@@ -11,15 +11,17 @@ class CiudadDao:
             cur.execute(consulta,params)
             #Para consultas select
             if fetch_one:
-                return cur.fetchone()
+                resultado = cur.fetchone()
+                return resultado
             if fetch_all:
-                return cur.fetchall()
+                resultado = cur.fetchall()
+                return resultado
             #para consultas UPDATE, INSERT, DELETE
             con.commit()
             return True
         except psycopg2.Error as e:
             con.rollback()
-            print(f"pgcode = {e.pgcod}, mensaje = {e.pgerror}")
+            print(f"pgcode = {e.pgcode}, mensaje = {e.pgerror}")
             return False
         finally:
             cur.close()
@@ -47,9 +49,21 @@ class CiudadDao:
         if ciudad:
             return {'id': ciudad[0], 'descripcion': ciudad[1]}
         return None
+    #Metodo de Insercion
+    def insertCiudad(self, descripcion):
+        insertSQL = """
+            INSERT INTO ciudades(descripcion) VALUES(%s)
+        """
+        return self._ejecutarConsulta(insertSQL,(descripcion,))
     #Metodo de Actualizacion(Boton Editar)
     def updateCiudad (self, id, descripcion):
         updateSQL="""
             UPDATE ciudades SET descripcion = %s WHERE id = %s
         """
         return self._ejecutarConsulta(updateSQL,(descripcion,id))
+    #Metodo de Borrado
+    def deleteCiudad(self, id):
+        deleteSQL = """
+            DELETE FROM ciudades WHERE  id = %s
+        """
+        return self._ejecutarConsulta(deleteSQL,(id,))

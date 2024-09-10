@@ -35,7 +35,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-sm-6"><h6 class="card-title">Ciudad</h6></div>
-                            <div class="col-sm-6"><a href="#" class="btn btn-primary agregar-btn">Agregar Ciudad</a></div>
+                            <div class="col-sm-6"><a href="{{ url_for('ciudad.agregar_ciudad') }}" class="btn btn-primary agregar-btn">Agregar Ciudad</a></div>
                         </div>
                     </div>
                     <!--Fin cabecera de la card -->
@@ -57,7 +57,7 @@
                                         <td>{{ ciudad['descripcion']}}</td>
                                         <td>
                                         <a href="{{ url_for('ciudad.editar_ciudad', id=ciudad['id']) }}" class="btn btn-primary editar-btn"data-id="{{ ciudad['id'] }}">Editar</a>
-                                        <a href="#" class="btn btn-warning">Eliminar</a>
+                                        <a href="{{ url_for('ciudad.delete_ciudad', id=ciudad['id']) }}"  class="btn btn-warning eliminar-btn" >Eliminar</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -83,6 +83,7 @@
             <!-- Aquí se insertará la nueva card cuando se haga clic en 'Editar' -->
         
         </div>
+
     </div>   
     
 </section>
@@ -90,8 +91,9 @@
 {% endblock %}
 
 {% block mi_javascript %}
+<!-- Script personalizado para paginacion dinamica -->
 <script src="{{url_for('static', filename='js/misPlugins/paginacion.js')}}"></script>
-
+<!-- Utilizando ajax se configura los botones dinamicos -->
 <script>
 $(document).ready(function(){
     //es una funcion reutilizable para evitar repetir codigo
@@ -115,19 +117,54 @@ $(document).ready(function(){
         cargarVista(url);
     });
     //Funcion que maneja el click en el boton de agregar
-    $('.agregar-btn').click(function(){
-        cargarVista("{{ url_for('ciudad.agregar_ciudad') }}");
+    $('.agregar-btn').click(function(event){
+        event.preventDefault();
+        const url = $(this).attr('href');
+        cargarVista(url);
+    });
+    // Funcion que maneja el clic en boton elminar
+    // si se confirma se borra si no cancela
+    $('.eliminar-btn').click(function(event) {
+        event.preventDefault(); // Evita que el enlace navegue
+
+        const url = $(this).attr('href'); // Obtiene la URL del atributo href
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¿Estás seguro de que deseas borrar?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, borrar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Si el usuario confirma, redirige a la URL para realizar la eliminación
+                window.location.href = url;
+            } else {
+                // Mensaje de cancelación si el usuario cancela
+                Swal.fire(
+                    'Cancelado',
+                    'La ciudad no fue borrada.',
+                    'info'
+                );
+            }
+        });
     });
       // Mostrar notificaciones de SweetAlert basadas en parámetros de URL
-      const updateStatus = new URLSearchParams(window.location.search).get('update_status');
+      const urlParams = new URLSearchParams(window.location.search);
+      const updateStatus = urlParams.get('update_status');
+      const action = urlParams.get('action');
         if (updateStatus === 'success') {
             Swal.fire({
                 icon: 'success',
-                title: 'Actualización Exitosa',
-                text: 'La ciudad se actualizó correctamente.',
+                // Se usa operadores ternarios
+                title: action === 'update' ? 'Actualizacion' : 'Insercion Exitosa',
+                text: action === 'update' ? 'La ciudad se actualizo Correctamente.' : 'La Ciudad se agregó correctamente. ',
                 confirmButtonText: 'Aceptar'
             });
-        } else if (updateStatus === 'error') {
+        }else if (updateStatus === 'error') {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -135,6 +172,7 @@ $(document).ready(function(){
                 confirmButtonText: 'Aceptar'
             });
         }
+        
 });
 </script>
 {% endblock %}
