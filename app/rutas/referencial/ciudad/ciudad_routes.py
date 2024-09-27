@@ -1,19 +1,16 @@
 from flask import Blueprint,render_template,request,redirect,url_for,jsonify
 from app.dao.referencial.ciudad.CiudadDao import CiudadDao
+
 from flask import flash
 
 ciumod = Blueprint('ciudad',__name__, template_folder='templates')
-#Funcion auxiliar convierte tuplas en lista de diccionarios
-def convertir_diccionario(lista):
-    return[{'id': item[0], 'descripcion': item[1]} for item in lista]
 #Vista Principal de ciudad
 #Muestra la base datos en el html
 @ciumod.route('/index-ciudad')
 def index_ciudad():
     cdao = CiudadDao()
-    lista = cdao.getCiudades()
-    diccionario = convertir_diccionario(lista)
-    return render_template('index-ciudad.html',ciudades=diccionario)
+    dicc_ciudad = cdao.getCiudades()
+    return render_template('index-ciudad.html',ciudades=dicc_ciudad)
 #Vista del formulario agregar
 @ciumod.route('/agregar-ciudad')
 def agregar_ciudad():

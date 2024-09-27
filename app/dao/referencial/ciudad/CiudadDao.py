@@ -38,7 +38,10 @@ class CiudadDao:
         ciudades = self._ejecutarConsulta(ciudadSQL, fetch_all=True)  # fetch_all para obtener todas las filas
         if ciudades is None:  # Si ocurre un error, maneja el caso
             return []
-        return ciudades
+        return self.conver_dicc_clientes(ciudades)
+    #Metodo que transforma en diccionario los datos
+    def conver_dicc_clientes(self,lista):
+        return[{'id':item[0],'descripcion':item[1]} for item in lista]
     #Este metodo devuelve un diccionario con los campos id y descripcion
     def getCiudadById(self,id):
         ciudadSQL = """
