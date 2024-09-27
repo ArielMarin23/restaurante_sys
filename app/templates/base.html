@@ -201,8 +201,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- PRIMER MENU -->
             <!-- deja abierto el menu principal mientras se cumpla la condicion if-->
-          <li class="nav-item {% if activate_page == 'ciudad.index_ciudad' %}menu-is-openig menu-open {% endif %}" >
-            <a href="#" class="nav-link">
+          <li class="nav-item active" id="menuRefencial" ><!-- aca s debe agregar las clases-->
+            <a href="#" class="nav-link" id="menuActivado">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Referenciales
                 <i class="right fas fa-angle-left"></i>
@@ -210,22 +210,16 @@
             </a>
             <ul class=" nav nav-treeview">
               <li class="nav-item">
-                <a href="{{url_for('cliente.index_cliente')}}" class="nav-link">
+                <a href="{{url_for('cliente.index_cliente')}}" class="nav-link" id="menuCliente">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Cliente</p>
                 </a>
               </li>
               <li class="nav-item">
                 <!-- deja marcado con el icono el menu selecionado-->
-                <a href="{{url_for('ciudad.index_ciudad')}}" class="nav-link {% if activate_page == 'ciudad.index_ciudad' %}active{% endif %}">
+                <a href="{{url_for('ciudad.index_ciudad')}}" class="nav-link" id="menuCiudad">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ciudad</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Proveedores</p>
                 </a>
               </li>
             </ul>
@@ -280,6 +274,22 @@
 <script src="{{ url_for('static', filename='plugins/datatablesNuevo/DataTables-1.13.8/js/dataTables.bootstrap5.min.js') }}"></script>
 <!-- sweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
+<script>
+  $(document).ready(function() {
+        // Obtener la ruta de la URL actual (ej: /ciudad)que es el url_prefix
+        var currentPath = window.location.pathname;
+        // Si la URL contiene "index_ciudad", añadir la clase "mi-clase"
+        if (currentPath.includes('cliente') || (currentPath.includes('ciudad'))) {
+            $('#menuRefencial').addClass('menu-is-openig menu-open');
+            $('#menuActivado').addClass('active');
+              if(currentPath.includes('cliente')){
+                $('#menuCliente').addClass('active');
+              }else if(currentPath.includes('ciudad'))
+                $('#menuCiudad').addClass('active');
+        }
+    });
+</script>
+
 {% block mi_javascript %}
 {% endblock %}
 

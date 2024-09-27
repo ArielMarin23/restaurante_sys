@@ -3,7 +3,7 @@ from app.dao.referencial.ciudad.CiudadDao import CiudadDao
 
 from flask import flash
 
-ciumod = Blueprint('ciudad',__name__, template_folder='templates')
+ciumod = Blueprint('ciudad',__name__, template_folder='templates',url_prefix='/ciudad')
 #Vista Principal de ciudad
 #Muestra la base datos en el html
 @ciumod.route('/index-ciudad')

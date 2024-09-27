@@ -3,7 +3,7 @@ from app.dao.referencial.cliente.ClienteDao import ClienteDao
 from app.dao.referencial.ciudad.CiudadDao import CiudadDao
 from app.dao.referencial.nacionalidad.NacionalidadDao import NacionalidadDao
 from app.dao.referencial.tipDocumento.TipDocumentoDao import TipDocumentoDao
-clienmod = Blueprint('cliente',__name__, template_folder='templates')
+clienmod = Blueprint('cliente',__name__, template_folder='templates',url_prefix='/cliente')
 
 #Vista principal de clientes
 @clienmod.route('/index-cliente')

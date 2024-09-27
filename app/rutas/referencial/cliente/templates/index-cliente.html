@@ -119,7 +119,7 @@
 
         // Hacer la solicitud AJAX
         $.ajax({
-            url: '/ver-cliente/' + codCliente, // Ruta a la que se hace la solicitud
+            url: '/cliente/ver-cliente/' + codCliente, // Ruta a la que se hace la solicitud
             method: 'GET',
             success: function(clienteData) {
                 console.log(clienteData); // Muestra el objeto en la consola
