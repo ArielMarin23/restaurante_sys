@@ -1,0 +1,23 @@
+
+<!-- Inicio del cuerpo de tarjeta -->
+<section class="content" style="max-width: 600px; margin: auto;">
+    <form id="update-form" action="{{ url_for('ciudad.update_ciudad') }}" method="POST">
+        <div class="card card-primary">
+            <div class="card-header">Editar ciudad</div>
+            <div class="card-body">
+                <input type="hidden" name="idtxtciudad" value="{{ ciudad['id'] }}"><!-- Captura valor anterior -->
+                <input type="text" name="txtciudad" class="form-control" value="{{ ciudad['descripcion'] }}" required><!-- Captura valor anterior -->
+            </div>
+            <div class="card-footer">
+                <button type="submit" href=""class="btn btn-primary">Actualizar</button>
+                <button type="button" class="btn btn-secondary" id="cancelar-btn" action="{{url_for('ciudad.index_ciudad')}}">Cancelar</button>
+            </div>
+        </div>
+    </form>
+</section>
+<script>
+    $('#cancelar-btn').click(function(){
+        window.location.href = "{{url_for('ciudad.index_ciudad')}}";
+    });
+
+</script>

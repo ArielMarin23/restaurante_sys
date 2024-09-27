@@ -1,0 +1,15 @@
+.select2-container .select2-selection {
+    border: 2px solid transparent;
+    height: 2.5em;
+    padding-left: 0.8em;
+    background-color: #F3F3F3;
+    border-radius: 10px;
+    transition: all 0.1s;
+}
+
+.select2-container--default .select2-selection--single:hover,
+.select2-container--default .select2-selection--single:focus {
+    border: 2px solid #4A9DEC;
+    box-shadow: 0px 0px 0px 7px rgba(74, 157, 236, 0.2);
+    background-color: white;
+}

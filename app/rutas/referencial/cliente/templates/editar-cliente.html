@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block mi_css %}
+<!-- Select2 -->
+<link rel="stylesheet" href="{{url_for('static', filename='plugins/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+
+
+{% endblock %}
+
+{% block contenido_principal %}
+<!-- contenido de cabezera (cabezera de pagina) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Referencial Cliente</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{url_for('inicio.index')}}">Inicio</a></li>
+                    <li class="breadcrumb-item active">Referencial Cliente</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+  <!-- Cabecera del formulario -->
+ <!-- Inicio del cuerpo de tarjeta style="max-width: 600px; margin: auto;"-->
+
+<section class="container">
+  <!-- /card-header -->
+  <div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Registrar Cliente</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <div class="card-body">
+        <form id="formClienteEdit">
+            <!-- Campo oculto para almacenar el JSON -->
+            <input type="hidden" id="modo" value="agregar">
+            <input type="hidden" id="json-data" name="json-data" value='{{ cliente | tojson }}'>
+            <input type="hidden" id="codigo" name="cod_cliente">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" name="nom_cliente" id="nombre" placeholder="Ingrese Nombre">
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <input type="text" class="form-control" name="ape_cliente" id="apellido" placeholder="Ingrese Apellido">
+            </div>
+            <div class="form-group">
+                <label for="tipo_documento">Tipo de Documento</label>
+                <select name="tipo_documento" id="tipo_documento" class="form-control select2" style="width: 100%;">
+                    <option selected disabled>Seleccione un tipo de documento</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="numero_documento">Número de Documento</label>
+                <input type="text" class="form-control" name="nro_doc_cliente" id="numero_documento" placeholder="Ingresar Número de Documento">
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" class="form-control" name="direc_cliente" id="direccion" placeholder="Ingrese Dirección">
+            </div>
+            <div class="form-group">
+                <label for="ciudad">Ciudad</label>
+                <select name="ciudad" id="ciudad" class="form-control select2" >
+                    <option selected disabled>Seleccione una ciudad</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nacionalidad">Nacionalidad</label>
+                <select name="nacionalidad" id="nacionalidad" class="form-control select2bs4" >
+                    <option selected disabled>Seleccione una Nacionalidad</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="numero_telefono">Número de Teléfono</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    </div>
+                    <input type="text" name="nro_telf_cliente" id="numero_telefono" class="form-control" data-inputmask='"mask": "(0999)999-999"' data-mask>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                    </div>
+                    <input name="fecha_nac_cliente" id="fecha_nacimiento" type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                </div>
+            
+            </div>
+            <button type="submit" class="btn btn-primary" id="btnEnviar">Enviar</button>
+        </form>
+    </div>
+</div>
+
+
+</section>
+{% endblock %}
+{% block mi_javascript %}
+
+<!-- Select2 -->
+<script src="{{ url_for('static', filename='plugins/select2/js/select2.full.min.js') }}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{ url_for('static', filename='plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<!-- InputMask -->
+<script src="{{ url_for('static', filename='plugins/moment/moment.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/inputmask/jquery.inputmask.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/operacionales/referenciales/cliente.js') }}"></script>
+<script>
+$(function(){
+    $('.select2').select2();
+    
+    // Inicializar Select2 Elements con el tema Bootstrap4
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    });
+    // Aplicar máscaras a los campos
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
+    $('[data-mask]').inputmask();
+});
+</script>
+{% endblock %}

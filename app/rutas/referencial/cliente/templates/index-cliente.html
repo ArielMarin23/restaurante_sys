@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% block mi_css %}
+<!-- Select2 -->
+<link rel="stylesheet" href="{{url_for('static', filename='plugins/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{{url_for('static',filename='plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+
+{% endblock %}
+
+{% block contenido_principal %}
+<!-- contenido de cabezera (cabezera de pagina) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Referencial Cliente</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{url_for('inicio.index')}}">Inicio</a></li>
+                    <li class="breadcrumb-item active">Referencial Cliente</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Inicio del cuerpo de tarjeta style="max-width: 600px; margin: auto;"-->
+ <section class="container">
+     <!-- /card-header -->
+     <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Lista de Clientes</h3>
+        </div>
+        <!-- /.card-header -->
+        {% if clientes|length > 0 %}
+        
+        <div class="card-body">
+          <div class="text-center mb-1">
+            <a class="btn btn-success" href="{{ url_for('cliente.agregar_cliente')}}">
+                <i class="fas fa-plus"></i> Agregar Cliente
+            </a>
+          </div>
+          <table id="example1" class="table table-striped text-center">
+            <thead>
+            <tr>
+              <th scope="col">Codigo</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Apellido</th>
+              <th scope="col">Documento Nro</th>
+              <th scope="col">Dirección</th>
+              <th scope="col">Telefono</th>
+              <th scope="col">Accion</th>
+            </tr>
+            </thead>
+            <tbody>
+              {% for cliente in clientes %}
+              <tr>
+                <td scope="row" id="codigo">{{ cliente['cod_cliente'] }}</td>
+                <td >{{ cliente['nom_cliente'] }}</td>
+                <td >{{ cliente['ape_cliente'] }}</td>
+                <td >{{ cliente['nro_doc_cliente'] }}</td>
+                <td >{{ cliente['direc_cliente'] }}</td>
+                <td >{{ cliente['nro_telf_cliente'] }}</td>
+                <td class="project-actions text-center">
+                  <a class="btn btn-primary btn-sm verCliente" data-cod-cliente="{{ cliente['cod_cliente'] }}">
+                      <i class="fas fa-folder">
+                      </i>
+                      Ver
+                  </a>
+                  <a class="btn btn-info btn-sm edit-button"  href="{{ url_for('cliente.editar_cliente', cod_cliente=cliente['cod_cliente']) }}">
+                      <i class="fas fa-pencil-alt">
+                      </i>
+                      Actualizar
+                  </a>
+                  <a class="btn btn-danger btn-sm eliminar-btn" href="{{ url_for('cliente.delete_cliente', cod_cliente=cliente['cod_cliente']) }}">
+                      <i class="fas fa-trash">
+                      </i>
+                      Eliminar
+                  </a>
+              </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+          <div class="alert alert-info" role="alert">
+              No hay elementos para mostrar
+          </div>
+        {% endif %} 
+        
+        <!-- /.card-body -->
+      </div>
+</section>
+{% endblock %}
+
+{% block mi_javascript %}
+<!-- DataTables  & Plugins -->
+<script src="{{url_for('static',filename='plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{url_for('static',filename='plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{url_for('static',filename='plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{url_for('static',filename='plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{url_for('static',filename='plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{url_for('static',filename='plugins/jszip/jszip.min.js')}}"></script>
+<script src="{{url_for('static',filename='plugins/pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{url_for('static',filename='plugins/pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{ url_for('static', filename='js/operacionales/referenciales/cliente3.js') }}"></script>
+
+<script>
+ $(document).ready(function() {
+    $('.verCliente').click(function(e) {
+        e.preventDefault();  // Evitar cualquier redirección por defecto
+
+        // Obtener el código del cliente desde el atributo data
+        var codCliente = $(this).data('cod-cliente');
+
+        // Hacer la solicitud AJAX
+        $.ajax({
+            url: '/cliente/ver-cliente/' + codCliente, // Ruta a la que se hace la solicitud
+            method: 'GET',
+            success: function(clienteData) {
+                console.log(clienteData); // Muestra el objeto en la consola
+
+                // Generar el PDF con los datos recibidos
+                generarPDF(clienteData);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error en la solicitud:', textStatus, errorThrown);
+            }
+        });
+    });
+});
+function generarPDF(cliente) {
+    // Asegúrate de que cliente tiene las propiedades necesarias
+    if (!cliente || !cliente.cod_cliente || !cliente.nom_cliente || !cliente.ape_cliente || !cliente.cod_tip_doc) {
+        console.error('Cliente no tiene todas las propiedades necesarias');
+        return;
+    }
+
+    var docDefinition = {
+        content: [
+            {
+                
+            },
+            { text: 'Detalles del Cliente', style: 'header' },
+            {
+                text: [
+                    { text: 'Código del Cliente: ', bold: true, color: 'blue' }, cliente.cod_cliente, '\n',
+                    { text: 'Nombre: ', bold: true, color: 'blue' }, cliente.nom_cliente, '\n',
+                    { text: 'Apellido: ', bold: true, color: 'blue' }, cliente.ape_cliente, '\n',
+                    { text: 'Tipo de Documento: ', bold: true, color: 'blue' }, cliente.cod_tip_doc, '\n',
+                    { text: 'Número de Documento: ', bold: true, color: 'blue' }, cliente.nro_doc_cliente, '\n',
+                    { text: 'Dirección: ', bold: true, color: 'blue' }, cliente.direc_cliente, '\n',
+                    { text: 'Teléfono: ', bold: true, color: 'blue' }, cliente.nro_telf_cliente
+                ],
+                margin: [0, 10, 0, 10]
+            },
+            {
+                text: 'Este es un resumen de los detalles del cliente.',
+                style: 'note'
+            }
+        ],
+        styles: {
+            header: {
+                fontSize: 24,
+                bold: true,
+                margin: [0, 0, 0, 10],
+                alignment: 'center',
+                color: 'darkblue'
+            },
+            note: {
+                fontSize: 12,
+                italics: true,
+                margin: [0, 10, 0, 10],
+                color: 'gray'
+            }
+        },
+        
+    };
+
+    // Generar el PDF
+    pdfMake.createPdf(docDefinition).open(); // Usa .download() para descargar el PDF
+}
+
+    
+    $(function () {
+        $("#example1").DataTable({
+        //TRaduce al español
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+        },
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      
+      /*
+      Carga de Tabla usando el ajax de datatables
+      $('#example1').DataTable({
+        "destroy" :true,
+        "ajax": {
+            "url": "/api/clientes",  // La ruta de tu API Flask que devuelve el JSON
+            "dataSrc": "",  // Indica que los datos JSON están en la raíz de la respuesta
+        "complete": function (xhr) {
+          console.log(xhr.responseJSON);  // Ver los datos que vienen desde el servidor
+        }
+        },
+        "columns": [
+            { "data": "cod_cliente" },
+            { "data": "nom_cliente" },
+            { "data": "ape_cliente" },
+            { "data": "nro_doc_cliente" },
+            { "data": "direc_cliente" },
+            { "data": "nro_telf_cliente" },
+            {
+                "data": null,  // Para las acciones (Ver, Editar, Borrar)
+                "render": function (data, type, row) {
+                    return `
+                        <a class="btn btn-primary btn-sm" href="/ver/${row.cod_cliente}">
+                            <i class="fas fa-folder"></i> Ver
+                        </a>
+                        <a class="btn btn-info btn-sm" href="/editar/${row.cod_cliente}">
+                            <i class="fas fa-pencil-alt"></i> Editar
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="/borrar/${row.cod_cliente}">
+                            <i class="fas fa-trash"></i> Borrar
+                        </a>`;
+                }
+            }
+        ],
+        
+    });*/
+  });
+  
+  
+    
+</script>
+
+{% endblock %}
