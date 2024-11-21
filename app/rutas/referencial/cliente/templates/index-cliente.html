@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="{{url_for('static',filename='plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 
+
 {% endblock %}
 
 {% block contenido_principal %}
@@ -20,7 +21,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{url_for('inicio.index')}}">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{url_for('cliente.index_cliente')}}">Inicio</a></li>
                     <li class="breadcrumb-item active">Referencial Cliente</li>
                 </ol>
             </div>
@@ -36,7 +37,6 @@
         </div>
         <!-- /.card-header -->
         {% if clientes|length > 0 %}
-        
         <div class="card-body">
           <div class="text-center mb-1">
             <a class="btn btn-success" href="{{ url_for('cliente.agregar_cliente')}}">
@@ -107,7 +107,7 @@
 <script src="{{url_for('static',filename='plugins/jszip/jszip.min.js')}}"></script>
 <script src="{{url_for('static',filename='plugins/pdfmake/pdfmake.min.js')}}"></script>
 <script src="{{url_for('static',filename='plugins/pdfmake/vfs_fonts.js')}}"></script>
-<script src="{{ url_for('static', filename='js/operacionales/referenciales/cliente3.js') }}"></script>
+<script src="{{ url_for('static', filename='js/operacionales/referenciales/cliente.js') }}"></script>
 
 <script>
  $(document).ready(function() {
@@ -192,8 +192,7 @@ function generarPDF(cliente) {
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
         },
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        "responsive": true, "lengthChange": true, "autoWidth": false,
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       
       /*

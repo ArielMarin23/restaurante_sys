@@ -15,8 +15,21 @@ from app.rutas.inicio.inicio_routes import mod
 from app.rutas.referencial.ciudad.ciudad_routes import ciumod
 from app.rutas.referencial.cliente.cliente_routes import clienmod
 
+from app.rutas.facturacion.aperturaCaja.aperturaCaja_routes import apercajamod
+from app.rutas.facturacion.cierreCaja.cierreCaja_routes import cierrecajamod
+from app.rutas.facturacion.arqueoCaja.arqueoCaja_routes import arqueocajamod
+from app.rutas.facturacion.comanda.comanda_routes import comandamod
+
 #app.register_blueprint(mod)
 app.register_blueprint(rutas.inicio.inicio_routes.mod)
 
 app.register_blueprint(rutas.referencial.ciudad.ciudad_routes.ciumod)
 app.register_blueprint(rutas.referencial.cliente.cliente_routes.clienmod)
+
+
+
+
+app.register_blueprint(rutas.facturacion.aperturaCaja.aperturaCaja_routes.apercajamod)
+app.register_blueprint(rutas.facturacion.cierreCaja.cierreCaja_routes.cierrecajamod)
+app.register_blueprint(rutas.facturacion.arqueoCaja.arqueoCaja_routes.arqueocajamod)
+app.register_blueprint(rutas.facturacion.comanda.comanda_routes.comandamod)

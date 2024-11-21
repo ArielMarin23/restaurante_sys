@@ -1,0 +1,6 @@
+@media (max-width: 600px) {
+    th, td {
+        font-size: 14px; /* Reducir tamaño de fuente */
+        padding: 5px; /* Reducir padding */
+    }
+}

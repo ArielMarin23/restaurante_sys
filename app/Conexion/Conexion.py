@@ -3,7 +3,7 @@ class ConexionDB:
     def __init__(self):
         """
         ESTE METODO CONSTRUYE LA CLASE CONEXION
-        El metodo connect obtiene la instancia 
+        El metodo connect obtiene la instancia
         de la conexion a la base de datos
         """
         self.__con=psycopg2.connect("dbname=postgres user=postgres host=localhost password=1234")

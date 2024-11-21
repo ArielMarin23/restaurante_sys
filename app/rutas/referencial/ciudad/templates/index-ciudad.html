@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 {% block mi_css %}
 <style>
-   .pagination .page-item.active .page-link {
-    background-color: #007bff;
-    color: white;
-}
-
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        color: white;
+    }
 </style>
 {% endblock %}
 {% block contenido_principal %}
 <!-- contenido de cabezera (cabezera de pagina) -->
- <section class="content-header">
+<section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
@@ -34,8 +33,11 @@
                     <!-- cabecera de la card -->
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-sm-6"><h6 class="card-title">Ciudad</h6></div>
-                            <div class="col-sm-6"><a href="{{ url_for('ciudad.agregar_ciudad') }}" class="btn btn-primary agregar-btn">Agregar Ciudad</a></div>
+                            <div class="col-sm-6">
+                                <h6 class="card-title">Ciudad</h6>
+                            </div>
+                            <div class="col-sm-6"><a href="{{ url_for('ciudad.agregar_ciudad') }}"
+                                    class="btn btn-primary agregar-btn">Agregar Ciudad</a></div>
                         </div>
                     </div>
                     <!--Fin cabecera de la card -->
@@ -52,18 +54,20 @@
                             </thead>
                             <tbody>
                                 {% for ciudad in ciudades %}
-                                    <tr>
-                                        <td scope="row">{{ ciudad['id'] }}</td> 
-                                        <td>{{ ciudad['descripcion']}}</td>
-                                        <td>
-                                        <a href="{{ url_for('ciudad.editar_ciudad', id=ciudad['id']) }}" class="btn btn-primary editar-btn"data-id="{{ ciudad['id'] }}">Editar</a>
-                                        <a href="{{ url_for('ciudad.delete_ciudad', id=ciudad['id']) }}"  class="btn btn-warning eliminar-btn" >Eliminar</a>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td scope="row">{{ ciudad['id'] }}</td>
+                                    <td>{{ ciudad['descripcion']}}</td>
+                                    <td>
+                                        <a href="{{ url_for('ciudad.editar_ciudad', id=ciudad['id']) }}"
+                                            class="btn btn-primary editar-btn" data-id="{{ ciudad['id'] }}">Editar</a>
+                                        <a href="{{ url_for('ciudad.delete_ciudad', id=ciudad['id']) }}"
+                                            class="btn btn-warning eliminar-btn">Eliminar</a>
+                                    </td>
+                                </tr>
                                 {% endfor %}
                             </tbody>
-                        </table> 
-                        
+                        </table>
+
                     </div>
                     <div class="card-footer clearfix">
                         <ul class="pagination pagination-sm m-0 float-right" id="pagination-controls">
@@ -76,16 +80,16 @@
                     <div class="alert alert-info" role="alert">
                         No hay elementos para mostrar
                     </div>
-                    {% endif %} 
-            </div> 
-        </div>
-        <div class="col-md-6" id="editar-card-container">
-            <!-- Aquí se insertará la nueva card cuando se haga clic en 'Editar' -->
-        
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6" id="editar-card-container">
+                <!-- Aquí se insertará la nueva card cuando se haga clic en 'Editar' -->
+
+            </div>
+
         </div>
 
-    </div>   
-    
 </section>
 <!-- Fin cuerpo de card-->
 {% endblock %}
@@ -95,67 +99,67 @@
 <script src="{{url_for('static', filename='js/misPlugins/paginacion.js')}}"></script>
 <!-- Utilizando ajax se configura los botones dinamicos -->
 <script>
-$(document).ready(function(){
-    //es una funcion reutilizable para evitar repetir codigo
-    function cargarVista(url) {
-        $.ajax({
-            url: url,
-            type: "get",
-            success: function(response){
-                $('#editar-card-container').html(response);
-            },
-            error: function(xhr){
-                console.error("Error al cargar la vista: ", xhr.responseText);
-            }
+    $(document).ready(function () {
+        //es una funcion reutilizable para evitar repetir codigo
+        function cargarVista(url) {
+            $.ajax({
+                url: url,
+                type: "get",
+                success: function (response) {
+                    $('#editar-card-container').html(response);
+                },
+                error: function (xhr) {
+                    console.error("Error al cargar la vista: ", xhr.responseText);
+                }
+            });
+        }
+        //final de funciona de carga de vista
+        //Funcion que Maneja el clic en el boton de editar
+        $('.editar-btn').click(function (event) {
+            event.preventDefault(); // Evita que el enlace navegue
+            const url = $(this).attr('href'); // Obtiene la URL del atributo href
+            cargarVista(url);
         });
-    }
-    //final de funciona de carga de vista
-    //Funcion que Maneja el clic en el boton de editar
-    $('.editar-btn').click(function(event){
-        event.preventDefault(); // Evita que el enlace navegue
-        const url = $(this).attr('href'); // Obtiene la URL del atributo href
-        cargarVista(url);
-    });
-    //Funcion que maneja el click en el boton de agregar
-    $('.agregar-btn').click(function(event){
-        event.preventDefault();
-        const url = $(this).attr('href');
-        cargarVista(url);
-    });
-    // Funcion que maneja el clic en boton elminar
-    // si se confirma se borra si no cancela
-    $('.eliminar-btn').click(function(event) {
-        event.preventDefault(); // Evita que el enlace navegue
-
-        const url = $(this).attr('href'); // Obtiene la URL del atributo href
-
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¿Estás seguro de que deseas borrar?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, borrar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Si el usuario confirma, redirige a la URL para realizar la eliminación
-                window.location.href = url;
-            } else {
-                // Mensaje de cancelación si el usuario cancela
-                Swal.fire(
-                    'Cancelado',
-                    'La ciudad no fue borrada.',
-                    'info'
-                );
-            }
+        //Funcion que maneja el click en el boton de agregar
+        $('.agregar-btn').click(function (event) {
+            event.preventDefault();
+            const url = $(this).attr('href');
+            cargarVista(url);
         });
-    });
-      // Mostrar notificaciones de SweetAlert basadas en parámetros de URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const updateStatus = urlParams.get('update_status');
-      const action = urlParams.get('action');
+        // Funcion que maneja el clic en boton elminar
+        // si se confirma se borra si no cancela
+        $('.eliminar-btn').click(function (event) {
+            event.preventDefault(); // Evita que el enlace navegue
+
+            const url = $(this).attr('href'); // Obtiene la URL del atributo href
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Estás seguro de que deseas borrar?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, borrar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si el usuario confirma, redirige a la URL para realizar la eliminación
+                    window.location.href = url;
+                } else {
+                    // Mensaje de cancelación si el usuario cancela
+                    Swal.fire(
+                        'Cancelado',
+                        'La ciudad no fue borrada.',
+                        'info'
+                    );
+                }
+            });
+        });
+        // Mostrar notificaciones de SweetAlert basadas en parámetros de URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const updateStatus = urlParams.get('update_status');
+        const action = urlParams.get('action');
         if (updateStatus === 'success') {
             Swal.fire({
                 icon: 'success',
@@ -164,7 +168,7 @@ $(document).ready(function(){
                 text: action === 'update' ? 'La ciudad se actualizo Correctamente.' : 'La Ciudad se agregó correctamente. ',
                 confirmButtonText: 'Aceptar'
             });
-        }else if (updateStatus === 'error') {
+        } else if (updateStatus === 'error') {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -172,7 +176,7 @@ $(document).ready(function(){
                 confirmButtonText: 'Aceptar'
             });
         }
-        
-});
+
+    });
 </script>
 {% endblock %}
